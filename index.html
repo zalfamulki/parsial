@@ -1,0 +1,1284 @@
+<html lang="en">
+<script type="text/javascript"
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Kalkulus 2 - Diferensial Parsial
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjs@11.0.0/lib/browser/math.min.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js">
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: #fff;
+        min-height: 100vh;
+    }
+    
+    .gradient-text {
+        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    
+    .card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        overflow: hidden;
+    }
+    
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .btn-primary {
+        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+    }
+    
+    .menu-overlay {
+        background: rgba(22, 33, 62, 0.95);
+        backdrop-filter: blur(10px);
+        transform: translateX(100%);
+        transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    
+    .menu-overlay.active {
+        transform: translateX(0);
+    }
+    
+    .hamburger {
+        width: 30px;
+        height: 20px;
+        position: relative;
+        cursor: pointer;
+    }
+    
+    .hamburger span {
+        display: block;
+        position: absolute;
+        height: 3px;
+        width: 100%;
+        background: white;
+        border-radius: 3px;
+        opacity: 1;
+        left: 0;
+        transform: rotate(0deg);
+        transition: .25s ease-in-out;
+    }
+    
+    .hamburger span:nth-child(1) {
+        top: 0px;
+    }
+    
+    .hamburger span:nth-child(2) {
+        top: 8px;
+    }
+    
+    .hamburger span:nth-child(3) {
+        top: 16px;
+    }
+    
+    .hamburger.active span:nth-child(1) {
+        top: 8px;
+        transform: rotate(135deg);
+    }
+    
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+        left: -60px;
+    }
+    
+    .hamburger.active span:nth-child(3) {
+        top: 8px;
+        transform: rotate(-135deg);
+    }
+    
+    .floating {
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateY(0px); }
+    }
+    
+    .page-transition {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    .page-transition.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .formula {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 15px;
+        margin: 15px 0;
+        overflow-x: auto;
+    }
+    
+    .quiz-option {
+        transition: all 0.3s ease;
+    }
+    
+    .quiz-option:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .quiz-option.selected {
+        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: rgba(79, 172, 254, 0.7);
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 242, 254, 0.7);
+    }
+    
+    .mathjax-container {
+        overflow-x: auto;
+        margin: 15px 0;
+    }
+    .answer-key {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 15px;
+        margin-top: 20px;
+        text-align: left;
+    }
+    .answer-key h4 {
+        margin-bottom: 8px;
+    }
+    .correct {
+        color: #22c55e; /* green-500 */
+        font-weight: 600;
+    }
+    .incorrect {
+        color: #ef4444; /* red-500 */
+        font-weight: 600;
+    }
+  
+body.light-mode {
+  background: linear-gradient(135deg, #fefefe 0%, #e5f0ff 100%);
+  color: #1e293b;
+}
+
+body.light-mode .card {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+  color: #1f2937;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+}
+
+body.light-mode .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .gradient-text {
+  background: linear-gradient(90deg, #3b82f6 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+body.light-mode .formula,
+body.light-mode .answer-key {
+  background: rgba(255, 255, 255, 0.8);
+  color: #1e293b;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .quiz-option {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
+
+body.light-mode .quiz-option:hover {
+  background: #f1f5f9;
+}
+
+body.light-mode .quiz-option.selected {
+  background: linear-gradient(90deg, #60a5fa 0%, #22d3ee 100%);
+  color: white;
+}
+
+body.light-mode .btn-primary {
+  background: linear-gradient(90deg, #3b82f6 0%, #06b6d4 100%);
+  color: white;
+}
+
+body.light-mode .btn-primary:hover {
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+body.light-mode footer {
+  background-color: #f1f5f9;
+  border-top: 1px solid #e5e7eb;
+  color: #64748b;
+}
+
+body.light-mode .card {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+  color: #1f2937;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+}
+
+body.light-mode .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .gradient-text {
+  background: linear-gradient(90deg, #3b82f6 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+body.light-mode .formula,
+body.light-mode .answer-key {
+  background: rgba(243, 244, 246, 0.8);
+  color: #1f2937;
+}
+
+body.light-mode .quiz-option:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .quiz-option.selected {
+  background: linear-gradient(90deg, #60a5fa 0%, #22d3ee 100%);
+}
+#theme-toggle {
+    position: absolute; /* Menggunakan posisi absolut */
+    right: 40px; /* Jarak dari kanan */
+    top: 5px; /* Jarak dari atas */
+    z-index: 20; /* Pastikan tombol berada di atas elemen lain */
+}
+
+  </style>
+<!-- Header -->
+<header class="relative z-10 py-6 px-4 md:px-8">
+   <div class="container mx-auto flex justify-between items-center relative">
+      <div class="flex items-center cursor-pointer" id="logo-home">
+         <div class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-400 to-cyan-300 flex items-center justify-center mr-3 floating">
+            <img src="logo_k-removebg-preview.png" width="50"/>
+         </div>
+         <h1 class="text-2xl md:text-3xl font-bold">
+            <span class="gradient-text">Kalkulus 2</span>
+         </h1>
+      </div>
+      <!-- Toggle Dark/Light Mode -->
+      <button id="theme-toggle" class="ml-4 px-4 py-2 rounded-full font-semibold transition-colors duration-300 bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 text-gray-900 shadow-md hover:from-purple-300 hover:to-yellow-300">
+         🌙 / ☀️ Mode
+      </button>
+      <!-- Hamburger Menu Button -->
+      <div class="hamburger" id="hamburger-btn">
+         <span></span>
+         <span></span>
+         <span></span>
+      </div>
+   </div>
+</header>
+
+<!-- Menu Overlay -->
+<div class="menu-overlay fixed top-0 right-0 w-full md:w-80 h-full z-40 flex flex-col justify-center items-center" id="menu-overlay">
+    <nav class="w-full px-8">
+        <ul class="space-y-6">
+            <li>
+                <a href="#" class="flex items-center text-xl font-medium py-2 px-4 rounded-lg hover:bg-white/10 transition-all" data-section="materi">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    Materi
+                </a>
+            </li>
+            <li>
+                <a href="#" class="flex items-center text-xl font-medium py-2 px-4 rounded-lg hover:bg-white/10 transition-all" data-section="kuis">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                    Kuis
+                </a>
+            </li>
+            <li>
+                <a href="#" class="flex items-center text-xl font-medium py-2 px-4 rounded-lg hover:bg-white/10 transition-all" data-section="kalkulator">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    Kalkulator
+                </a>
+            </li>
+            <li>
+                <a href="#" class="flex items-center text-xl font-medium py-2 px-4 rounded-lg hover:bg-white/10 transition-all" data-section="tim">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    Tim Kami
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Main Content -->
+<main class="container mx-auto px-4 md:px-8 py-6 space-y-12">
+    <!-- Home Page -->
+    <div id="home-page" class="page-transition active">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl md:text-5xl font-bold mb-4">Belajar <span class="gradient-text">Diferensial Parsial</span></h2>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto">Pelajari konsep kalkulus multivariabel dengan materi yang komprehensif</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            <!-- Materi Card -->
+            <div class="card p-6 h-80 relative">
+                <div class="h-full flex flex-col justify-between">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-r from-blue-400 to-cyan-300 flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2">Materi</h3>
+                        <p class="text-gray-300 mb-6">Pelajari konsep dasar diferensial parsial dengan penjelasan lengkap</p>
+                        <button class="btn-primary w-full py-3 rounded-lg flex items-center justify-center" data-section="materi">
+                            <span>Mulai Belajar</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Kuis Card -->
+            <div class="card p-6 h-80 relative">
+                <div class="h-full flex flex-col justify-between">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-r from-green-400 to-emerald-300 flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2">Kuis</h3>
+                        <p class="text-gray-300 mb-6">Uji pemahaman kamu dengan kuis interaktif tentang diferensial parsial</p>
+                        <button class="btn-primary w-full py-3 rounded-lg flex items-center justify-center" data-section="kuis">
+                            <span>Mulai Kuis</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Kalkulator Card -->
+            <div class="card p-6 h-80 relative">
+                <div class="h-full flex flex-col justify-between">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-r from-purple-400 to-pink-300 flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2">Kalkulator</h3>
+                        <p class="text-gray-300 mb-6">Hitung turunan parsial dari berbagai fungsi multivariabel</p>
+                        <button class="btn-primary w-full py-3 rounded-lg flex items-center justify-center" data-section="kalkulator">
+                            <span>Buka Kalkulator</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tim Card -->
+            <div class="card p-6 h-80 relative">
+                <div class="h-full flex flex-col justify-between">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-r from-yellow-400 to-orange-300 flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2">Tim Kami</h3>
+                        <p class="text-gray-300 mb-6">Kenali 4 anggota tim yang mengembangkan platform ini</p>
+                        <button class="btn-primary w-full py-3 rounded-lg flex items-center justify-center" data-section="tim">
+                            <span>Lihat Tim</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Materi Page -->
+    <div id="materi-page" class="page-transition hidden">
+        <button class="flex items-center text-blue-400 hover:text-blue-300 transition-colors mb-6 back-to-home">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+            </svg>
+            Kembali ke Beranda
+        </button>
+        
+        <h2 class="text-3xl font-bold mb-6">Diferensial Parsial</h2>
+        
+        <div class="card p-6 mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Pendahuluan</h3>
+            <p class="mb-4">Diferensial parsial adalah konsep dalam kalkulus multivariabel yang memungkinkan kita untuk menghitung laju perubahan suatu fungsi terhadap satu variabel saat variabel lainnya tetap konstan.</p>
+            <p>Dalam kalkulus biasa, kita berurusan dengan fungsi satu variabel seperti f(x). Namun, dalam banyak aplikasi di dunia nyata, kita sering berurusan dengan fungsi yang bergantung pada beberapa variabel, seperti f(x,y,z). Diferensial parsial memungkinkan kita untuk menganalisis bagaimana fungsi tersebut berubah ketika kita mengubah satu variabel saja.</p>
+        </div>
+        
+        <div class="card p-6 mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Definisi Turunan Parsial</h3>
+            <p class="mb-4">Untuk fungsi f(x,y), turunan parsial terhadap x didefinisikan sebagai:</p>
+            <div class="formula">
+                \[ \frac{\partial f}{\partial x} = \lim_{h \to 0} \frac{f(x+h, y) - f(x, y)}{h} \]
+            </div>
+            <p class="mb-4">Dan turunan parsial terhadap y didefinisikan sebagai:</p>
+            <div class="formula">
+                \[ \frac{\partial f}{\partial y} = \lim_{h \to 0} \frac{f(x, y+h) - f(x, y)}{h} \]
+            </div>
+            <p class="mt-4">Notasi lain yang sering digunakan:</p>
+            <div class="formula">
+                \[ f_x = \frac{\partial f}{\partial x}, \quad f_y = \frac{\partial f}{\partial y} \]
+            </div>
+            <p class="mt-4">Secara geometris, turunan parsial \( \frac{\partial f}{\partial x} \) pada titik (a,b) mewakili kemiringan garis singgung pada kurva yang dihasilkan dari perpotongan permukaan z = f(x,y) dengan bidang y = b.</p>
+        </div>
+        
+        <div class="card p-6 mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Cara Menghitung Turunan Parsial</h3>
+            <p class="mb-4">Untuk menghitung turunan parsial, kita mengikuti langkah-langkah berikut:</p>
+            <ol class="list-decimal pl-6 space-y-2 mb-6">
+                <li>Anggap semua variabel selain variabel yang sedang diturunkan sebagai konstanta</li>
+                <li>Turunkan fungsi tersebut seperti biasa dengan menggunakan aturan-aturan turunan yang sudah dikenal</li>
+            </ol>
+            
+            <h4 class="text-xl font-medium mb-3">Contoh 1:</h4>
+            <p class="mb-2">Misalkan kita memiliki fungsi f(x,y) = x² + xy + y²</p>
+            <p class="mb-2">Turunan parsial terhadap x:</p>
+            <div class="formula">
+                \[ \frac{\partial f}{\partial x} = \frac{\partial}{\partial x}(x^2 + xy + y^2) = 2x + y \]
+            </div>
+            <p class="mb-2">Turunan parsial terhadap y:</p>
+            <div class="formula">
+                \[ \frac{\partial f}{\partial y} = \frac{\partial}{\partial y}(x^2 + xy + y^2) = x + 2y \]
+            </div>
+            
+            <h4 class="text-xl font-medium mb-3 mt-6">Contoh 2:</h4>
+            <p class="mb-2">Untuk fungsi f(x,y) = e^{xy} sin(x+y)</p>
+            <p class="mb-2">Turunan parsial terhadap x:</p>
+            <div class="formula">
+                \[ \frac{\partial f}{\partial x} = ye^{xy} \sin(x+y) + e^{xy} \cos(x+y) \]
+            </div>
+            <p class="mb-2">Turunan parsial terhadap y:</p>
+            <div class="formula">
+                \[ \frac{\partial f}{\partial y} = xe^{xy} \sin(x+y) + e^{xy} \cos(x+y) \]
+            </div>
+        </div>
+        
+        <div class="card p-6 mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Aturan Turunan Parsial</h3>
+            <p class="mb-4">Berikut adalah beberapa aturan dasar dalam menghitung turunan parsial:</p>
+            
+            <div class="mb-6">
+                <h4 class="text-xl font-medium mb-2">1. Aturan Penjumlahan dan Pengurangan</h4>
+                <div class="formula">
+                    \[ \frac{\partial}{\partial x}(f(x,y) \pm g(x,y)) = \frac{\partial f}{\partial x} \pm \frac{\partial g}{\partial x} \]
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <h4 class="text-xl font-medium mb-2">2. Aturan Perkalian</h4>
+                <div class="formula">
+                    \[ \frac{\partial}{\partial x}(f(x,y) \cdot g(x,y)) = \frac{\partial f}{\partial x} \cdot g(x,y) + f(x,y) \cdot \frac{\partial g}{\partial x} \]
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <h4 class="text-xl font-medium mb-2">3. Aturan Pembagian</h4>
+                <div class="formula">
+                    \[ \frac{\partial}{\partial x}\left(\frac{f(x,y)}{g(x,y)}\right) = \frac{g(x,y) \cdot \frac{\partial f}{\partial x} - f(x,y) \cdot \frac{\partial g}{\partial x}}{[g(x,y)]^2} \]
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <h4 class="text-xl font-medium mb-2">4. Aturan Rantai</h4>
+                <p class="mb-2">Jika z = f(u,v) dimana u = g(x,y) dan v = h(x,y), maka:</p>
+                <div class="formula">
+                    \[ \frac{\partial z}{\partial x} = \frac{\partial f}{\partial u} \cdot \frac{\partial u}{\partial x} + \frac{\partial f}{\partial v} \cdot \frac{\partial v}{\partial x} \]
+                </div>
+                <div class="formula">
+                    \[ \frac{\partial z}{\partial y} = \frac{\partial f}{\partial u} \cdot \frac{\partial u}{\partial y} + \frac{\partial f}{\partial v} \cdot \frac{\partial v}{\partial y} \]
+                </div>
+            </div>
+        </div>
+        
+        <div class="card p-6 mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Turunan Parsial Tingkat Tinggi</h3>
+            <p class="mb-4">Turunan parsial dapat dihitung berulang kali untuk mendapatkan turunan tingkat tinggi:</p>
+            
+            <div class="mb-6">
+                <h4 class="text-xl font-medium mb-2">Turunan Parsial Kedua</h4>
+                <p class="mb-2">Turunan parsial kedua terhadap x:</p>
+                <div class="formula">
+                    \[ \frac{\partial^2 f}{\partial x^2} = \frac{\partial}{\partial x}\left(\frac{\partial f}{\partial x}\right) \]
+                </div>
+                <p class="mb-2">Turunan parsial kedua terhadap y:</p>
+                <div class="formula">
+                    \[ \frac{\partial^2 f}{\partial y^2} = \frac{\partial}{\partial y}\left(\frac{\partial f}{\partial y}\right) \]
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <h4 class="text-xl font-medium mb-2">Turunan Campuran</h4>
+                <p class="mb-2">Turunan parsial terhadap x kemudian terhadap y:</p>
+                <div class="formula">
+                    \[ \frac{\partial^2 f}{\partial y \partial x} = \frac{\partial}{\partial y}\left(\frac{\partial f}{\partial x}\right) \]
+                </div>
+                <p class="mb-2">Turunan parsial terhadap y kemudian terhadap x:</p>
+                <div class="formula">
+                    \[ \frac{\partial^2 f}{\partial x \partial y} = \frac{\partial}{\partial x}\left(\frac{\partial f}{\partial y}\right) \]
+                </div>
+                <p class="mt-4">Jika turunan campuran kontinu, maka urutan turunan tidak mempengaruhi hasil:</p>
+                <div class="formula">
+                    \[ \frac{\partial^2 f}{\partial x \partial y} = \frac{\partial^2 f}{\partial y \partial x} \]
+                </div>
+                <p>Ini dikenal sebagai Teorema Clairaut.</p>
+            </div>
+            
+            <div class="mb-4">
+                <h4 class="text-xl font-medium mb-2">Contoh Turunan Tingkat Tinggi</h4>
+                <p class="mb-2">Untuk fungsi f(x,y) = x³y + xy²:</p>
+                <div class="formula">
+                    \[ \frac{\partial f}{\partial x} = 3x^2y + y^2 \]
+                </div>
+                <div class="formula">
+                    \[ \frac{\partial f}{\partial y} = x^3 + 2xy \]
+                </div>
+                <div class="formula">
+                    \[ \frac{\partial^2 f}{\partial x^2} = 6xy \]
+                </div>
+                <div class="formula">
+                    \[ \frac{\partial^2 f}{\partial y^2} = 2x \]
+                </div>
+                <div class="formula">
+                    \[ \frac{\partial^2 f}{\partial y \partial x} = \frac{\partial^2 f}{\partial x \partial y} = 3x^2 + 2y \]
+                </div>
+            </div>
+        </div>
+        
+        <div class="card p-6 mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Gradien</h3>
+            <p class="mb-4">Gradien dari fungsi f(x,y) didefinisikan sebagai vektor:</p>
+            <div class="formula">
+                \[ \nabla f(x,y) = \left( \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y} \right) \]
+            </div>
+            <p class="mb-4">Untuk fungsi dengan tiga variabel f(x,y,z):</p>
+            <div class="formula">
+                \[ \nabla f(x,y,z) = \left( \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}, \frac{\partial f}{\partial z} \right) \]
+            </div>
+            <p class="mb-4">Gradien memiliki sifat-sifat penting:</p>
+            <ul class="list-disc pl-6 space-y-2">
+                <li>Gradien menunjukkan arah kenaikan tercepat dari fungsi</li>
+                <li>Besarnya gradien menunjukkan laju perubahan dalam arah tersebut</li>
+                <li>Gradien selalu tegak lurus terhadap kurva level (kontur) dari fungsi</li>
+            </ul>
+            
+            <div class="mt-6">
+                <h4 class="text-xl font-medium mb-2">Contoh Gradien</h4>
+                <p class="mb-2">Untuk fungsi f(x,y) = x² + y²:</p>
+                <div class="formula">
+                    \[ \nabla f(x,y) = (2x, 2y) \]
+                </div>
+                <p class="mb-2">Pada titik (3,4):</p>
+                <div class="formula">
+                    \[ \nabla f(3,4) = (6, 8) \]
+                </div>
+                <p>Ini berarti bahwa pada titik (3,4), fungsi meningkat paling cepat dalam arah vektor (6,8).</p>
+            </div>
+        </div>
+        
+        <div class="card p-6 mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Aplikasi Diferensial Parsial</h3>
+            
+            <div class="mb-6">
+                <h4 class="text-xl font-medium mb-2">1. Optimasi Fungsi Multivariabel</h4>
+                <p class="mb-4">Diferensial parsial digunakan untuk mencari nilai maksimum, minimum, atau titik pelana dari fungsi multivariabel.</p>
+                <p class="mb-2">Langkah-langkah:</p>
+                <ol class="list-decimal pl-6 space-y-2">
+                    <li>Cari titik kritis dengan menyelesaikan sistem persamaan \( \nabla f(x,y) = (0,0) \)</li>
+                    <li>Gunakan uji turunan kedua untuk menentukan sifat titik kritis</li>
+                </ol>
+                <p class="mt-2">Uji turunan kedua menggunakan matriks Hessian:</p>
+                <div class="formula">
+                    \[ H = \begin{pmatrix} 
+                    \frac{\partial^2 f}{\partial x^2} & \frac{\partial^2 f}{\partial x \partial y} \\
+                    \frac{\partial^2 f}{\partial y \partial x} & \frac{\partial^2 f}{\partial y^2}
+                    \end{pmatrix} \]
+                </div>
+                <p class="mt-2">Jika determinan H > 0 dan \( \frac{\partial^2 f}{\partial x^2} > 0 \), maka titik tersebut adalah minimum lokal.</p>
+                <p>Jika determinan H > 0 dan \( \frac{\partial^2 f}{\partial x^2} < 0 \), maka titik tersebut adalah maksimum lokal.</p>
+                <p>Jika determinan H < 0, maka titik tersebut adalah titik pelana.</p>
+            </div>
+            
+            <div class="mb-6">
+                <h4 class="text-xl font-medium mb-2">2. Persamaan Diferensial Parsial</h4>
+                <p class="mb-4">Diferensial parsial digunakan dalam berbagai persamaan diferensial parsial yang memodelkan fenomena fisik:</p>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>Persamaan Gelombang: \( \frac{\partial^2 u}{\partial t^2} = c^2 \frac{\partial^2 u}{\partial x^2} \)</li>
+                    <li>Persamaan Panas: \( \frac{\partial u}{\partial t} = k \frac{\partial^2 u}{\partial x^2} \)</li>
+                    <li>Persamaan Laplace: \( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0 \)</li>
+                </ul>
+            </div>
+            
+            <div class="mb-6">
+                <h4 class="text-xl font-medium mb-2">3. Analisis Sensitivitas</h4>
+                <p class="mb-4">Dalam ekonomi dan keuangan, diferensial parsial digunakan untuk menganalisis bagaimana perubahan satu variabel mempengaruhi hasil akhir ketika variabel lain tetap konstan.</p>
+                <p>Contoh: Dalam opsi keuangan, "Greeks" seperti Delta, Gamma, Theta, dan Vega adalah turunan parsial dari harga opsi terhadap berbagai parameter.</p>
+            </div>
+            
+            <div class="mb-6">
+                <h4 class="text-xl font-medium mb-2">4. Mekanika Fluida</h4>
+                <p class="mb-4">Persamaan Navier-Stokes yang menggambarkan aliran fluida melibatkan diferensial parsial:</p>
+                <div class="formula">
+                    \[ \rho \left( \frac{\partial \mathbf{v}}{\partial t} + \mathbf{v} \cdot \nabla \mathbf{v} \right) = -\nabla p + \mu \nabla^2 \mathbf{v} + \mathbf{f} \]
+                </div>
+                <p>di mana v adalah kecepatan fluida, p adalah tekanan, ρ adalah densitas, dan μ adalah viskositas.</p>
+            </div>
+            
+            <div>
+                <h4 class="text-xl font-medium mb-2">5. Elektromagnetisme</h4>
+                <p class="mb-4">Persamaan Maxwell yang menggambarkan elektromagnetisme melibatkan diferensial parsial:</p>
+                <div class="formula">
+                    \[ \nabla \cdot \mathbf{E} = \frac{\rho}{\epsilon_0} \]
+                    \[ \nabla \cdot \mathbf{B} = 0 \]
+                    \[ \nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t} \]
+                    \[ \nabla \times \mathbf{B} = \mu_0 \mathbf{J} + \mu_0 \epsilon_0 \frac{\partial \mathbf{E}}{\partial t} \]
+                </div>
+                <p>di mana E adalah medan listrik, B adalah medan magnet, ρ adalah densitas muatan, dan J adalah densitas arus.</p>
+            </div>
+        </div>
+        
+        <div class="card p-6">
+            <h3 class="text-2xl font-semibold mb-4">Kesimpulan</h3>
+            <p class="mb-4">Diferensial parsial adalah alat matematika yang sangat penting dalam menganalisis fungsi multivariabel. Konsep ini memungkinkan kita untuk:</p>
+            <ul class="list-disc pl-6 space-y-2">
+                <li>Menghitung laju perubahan fungsi terhadap satu variabel saat variabel lain tetap konstan</li>
+                <li>Mencari arah kenaikan atau penurunan tercepat dari fungsi (gradien)</li>
+                <li>Mengoptimalkan fungsi multivariabel (mencari nilai maksimum/minimum)</li>
+                <li>Memodelkan berbagai fenomena fisik melalui persamaan diferensial parsial</li>
+            </ul>
+            <p class="mt-4">Pemahaman yang baik tentang diferensial parsial sangat penting dalam berbagai bidang seperti fisika, teknik, ekonomi, dan ilmu komputer.</p>
+        </div>
+    </div>
+    
+    <!-- Kuis Page -->
+    <div id="kuis-page" class="page-transition hidden">
+        <button class="flex items-center text-green-400 hover:text-green-300 transition-colors mb-6 back-to-home">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+            </svg>
+            Kembali ke Beranda
+        </button>
+        
+        <h2 class="text-3xl font-bold mb-6">Kuis Diferensial Parsial</h2>
+        <div class="card p-6">
+            <div id="quiz-container">
+                <div class="quiz-progress mb-4">
+                    <div class="w-full bg-gray-700 rounded-full h-2.5">
+                        <div class="bg-gradient-to-r from-green-400 to-emerald-300 h-2.5 rounded-full" id="quiz-progress-bar" style="width: 0%"></div>
+                    </div>
+                    <p class="text-sm mt-1 text-right"><span id="current-question">0</span>/<span id="total-questions">5</span></p>
+                </div>
+                
+                <div id="quiz-content">
+                </div>
+                
+                <div class="mt-6 flex justify-between">
+                    <button id="prev-btn" class="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed">Sebelumnya</button>
+                    <button id="next-btn" class="btn-primary px-4 py-2 rounded-lg">Selanjutnya</button>
+                </div>
+            </div>
+            
+            <div id="quiz-result" class="hidden text-center">
+                <h3 class="text-2xl font-bold mb-4">Hasil Kuis</h3>
+                <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-400 to-emerald-300 flex items-center justify-center">
+                    <span id="score-display" class="text-3xl font-bold text-white">0%</span>
+                </div>
+                <p class="mb-6">Kamu menjawab <span id="correct-answers">0</span> dari <span id="total-questions-result">5</span> pertanyaan dengan benar.</p>
+                <div id="answer-keys" class="text-left max-w-4xl mx-auto"></div>
+                <button id="restart-quiz" class="btn-primary px-6 py-2 rounded-lg mt-6">Coba Lagi</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Kalkulator Page -->
+    <div id="kalkulator-page" class="page-transition hidden">
+        <button class="flex items-center text-purple-400 hover:text-purple-300 transition-colors mb-6 back-to-home">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+            </svg>
+            Kembali ke Beranda
+        </button>
+        
+        <h2 class="text-3xl font-bold mb-6">Kalkulator Turunan Parsial</h2>
+        <div class="card p-6">
+            <div class="mb-6">
+                <label for="function-input" class="block mb-2 font-medium">Masukkan Fungsi f(x,y):</label>
+                <input type="text" id="function-input" placeholder="Contoh: x^2 + y^2" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-purple-400 focus:outline-none">
+                <p class="text-sm text-gray-400 mt-2">Gunakan x dan y sebagai variabel. Contoh: x^2*y + sin(x)*cos(y)</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label for="x-value" class="block mb-2 font-medium">Nilai x:</label>
+                    <input type="number" id="x-value" value="1" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-purple-400 focus:outline-none">
+                </div>
+                <div>
+                    <label for="y-value" class="block mb-2 font-medium">Nilai y:</label>
+                    <input type="number" id="y-value" value="1" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-purple-400 focus:outline-none">
+                </div>
+            </div>
+            
+            <button id="calculate-btn" class="btn-primary w-full py-3 rounded-lg mb-6">Hitung Turunan Parsial</button>
+            
+            <div id="result-container" class="hidden">
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold mb-2">Fungsi:</h3>
+                    <div class="formula" id="result-function"></div>
+                </div>
+                
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold mb-2">Turunan Parsial terhadap x:</h3>
+                    <div class="formula" id="result-dx"></div>
+                    <p class="mt-2">Nilai pada (x,y) = (<span id="eval-point-x">1</span>, <span id="eval-point-y">1</span>): <span id="result-dx-value" class="font-semibold"></span></p>
+                </div>
+                
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold mb-2">Turunan Parsial terhadap y:</h3>
+                    <div class="formula" id="result-dy"></div>
+                    <p class="mt-2">Nilai pada (x,y) = (<span id="eval-point-x2">1</span>, <span id="eval-point-y2">1</span>): <span id="result-dy-value" class="font-semibold"></span></p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-2">Gradien pada titik tersebut:</h3>
+                    <p id="result-gradient" class="bg-gray-800 p-3 rounded-lg"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tim Page -->
+    <div id="tim-page" class="page-transition hidden">
+        <button class="flex items-center text-yellow-400 hover:text-yellow-300 transition-colors mb-6 back-to-home">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+            </svg>
+            Kembali ke Beranda
+        </button>
+        
+        <h2 class="text-3xl font-bold mb-6">Tim Kami</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Anggota 1 -->
+            <div class="card p-6">
+                <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-400 to-cyan-300 flex items-center justify-center overflow-hidden">
+                   
+                    <img src="azka.jpeg" alt="Muhamad Azka Haikal" class="w-full h-full object-cover">
+                </div>
+                <h3 class="text-xl font-semibold text-center mb-1">Muhamad Azka Haikal</h3>
+                <p class="text-center text-gray-400 mb-3">Anggota 1</p>
+                <p class="text-center">NPM: 247006111087</p>
+            </div>
+            
+            <!-- Anggota 2 -->
+            <div class="card p-6">
+                <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-400 to-pink-300 flex items-center justify-center overflow-hidden">
+                  <img src="ahmad.jpeg" alt="Ahmad Taufiq Rafly" class="w-full h-full object-cover">  
+                </div>
+                <h3 class="text-xl font-semibold text-center mb-1">Ahmad Taufiq Rafly</h3>
+                <p class="text-center text-gray-400 mb-3">Anggota 2</p>
+                <p class="text-center">NPM: 247006111106</p>
+            </div>
+            
+            <!-- Anggota 3 -->
+            <div class="card p-6">
+                <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-400 to-teal-300 flex items-center justify-center overflow-hidden">
+                    <img src="zalfa.jpeg" alt="Zalfa Malikul Mulqi" class="w-full h-full object-cover">
+                </div>
+                <h3 class="text-xl font-semibold text-center mb-1">Zalfa Malikul Mulqi</h3>
+                <p class="text-center text-gray-400 mb-3">Anggota 3</p>
+                <p class="text-center">NPM: 247006111117</p>
+            </div>
+            
+            <!-- Anggota 4 -->
+            <div class="card p-6">
+                <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-r from-yellow-400 to-orange-300 flex items-center justify-center overflow-hidden">
+                   <img src="kamal.jpeg" alt="Kamal Fadhilrahman" class="w-full h-full object-cover">
+                </div>
+                <h3 class="text-xl font-semibold text-center mb-1">Kamal Fadhilrahman</h3>
+                <p class="text-center text-gray-400 mb-3">Anggota 4</p>
+                <p class="text-center">NPM: 247006111122</p>
+            </div>
+        </div>
+        
+        <div class="card p-6 mt-8">
+            <h3 class="text-xl font-semibold mb-4">Tentang Proyek</h3>
+            <p class="mb-4">Proyek ini dikembangkan sebagai bagian dari mata kuliah Kalkulus 2 untuk membantu mahasiswa memahami konsep diferensial parsial dengan cara yang interaktif dan visual.</p>
+            <p>Fitur utama dari platform ini meliputi:</p>
+            <ul class="list-disc pl-6 mt-2 space-y-1">
+                <li>Materi pembelajaran yang komprehensif tentang diferensial parsial</li>
+                <li>Kuis interaktif untuk menguji pemahaman</li>
+                <li>Kalkulator turunan parsial untuk membantu perhitungan</li>
+                <li>Contoh-contoh aplikasi diferensial parsial dalam berbagai bidang</li>
+            </ul>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="py-6 px-4 md:px-8 mt-12 border-t border-gray-800">
+    <div class="container mx-auto text-center text-gray-400">
+        <p>&copy; 2025 Kalkulus 2 - Diferensial Parsial</p>
+    </div>
+</footer>
+
+<script>
+    // Hamburger menu functionality
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const menuOverlay = document.getElementById('menu-overlay');
+    
+    hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
+    });
+    
+    // Navigation functionality
+    const pages = {
+        'home': document.getElementById('home-page'),
+        'materi': document.getElementById('materi-page'),
+        'kuis': document.getElementById('kuis-page'),
+        'kalkulator': document.getElementById('kalkulator-page'),
+        'tim': document.getElementById('tim-page')
+    };
+    
+    function navigateTo(page) {
+        // Hide all pages
+        Object.values(pages).forEach(p => {
+            p.classList.remove('active');
+            p.classList.add('hidden');
+        });
+        
+        // Show selected page
+        pages[page].classList.remove('hidden');
+        setTimeout(() => {
+            pages[page].classList.add('active');
+        }, 10);
+        
+        // Close menu if it's open
+        hamburgerBtn.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        
+        // Initialize specific page functionality
+        if (page === 'kuis') {
+            initQuiz();
+        } else if (page === 'kalkulator') {
+            initCalculator();
+        }
+        
+        // Scroll to top
+        window.scrollTo(0, 0);
+    }
+    
+    // Add event listeners to navigation elements
+    document.querySelectorAll('[data-section]').forEach(item => {
+        item.addEventListener('click', () => {
+            const section = item.getAttribute('data-section');
+            navigateTo(section);
+        });
+    });
+    
+    // Back to home buttons
+    document.querySelectorAll('.back-to-home').forEach(btn => {
+        btn.addEventListener('click', () => {
+            navigateTo('home');
+        });
+    });
+    
+    // Logo click to home
+    document.getElementById('logo-home').addEventListener('click', () => {
+        navigateTo('home');
+    });
+    
+    // Quiz questions with solutions and steps
+    const quizQuestions = [
+        {
+            question: "Turunan parsial dari f(x,y) = x²y terhadap x adalah?",
+            options: ["2xy", "x²", "y²", "2x"],
+            correct: 0,
+            solution: "Turunan parsial terhadap x menganggap y sebagai konstanta. Jadi, turunan dari x²y terhadap x adalah y * turunan x² = y * 2x = 2xy.",
+            steps: [
+                "Ingat fungsi: f(x,y) = x²y",
+                "Turunan parsial terhadap x: anggap y sebagai konstanta",
+                "Turunan x² adalah 2x",
+                "Kalikan dengan y: 2x * y = 2xy"
+            ]
+        },
+        {
+            question: "Turunan parsial dari f(x,y) = sin(xy) terhadap y adalah?",
+            options: ["sin(x)", "cos(y)", "x cos(xy)", "y cos(xy)"],
+            correct: 2,
+            solution: "Gunakan aturan rantai: turunan sin(u) adalah cos(u) * turunan u. Dengan u = xy, turunan u terhadap y adalah x. Jadi, turunan parsial terhadap y adalah x * cos(xy).",
+            steps: [
+                "Fungsi: f(x,y) = sin(xy)",
+                "Terapkan aturan rantai: turunan sin(u) = cos(u) * du/dy",
+                "u = xy, turunan u terhadap y adalah x",
+                "Jadi, turunan parsial terhadap y adalah x * cos(xy)"
+            ]
+        },
+        {
+            question: "Turunan parsial kedua ∂²f/∂x² dari f(x,y) = x³ + xy² adalah...",
+            options: ["3x", "6x", "y²", "6x²"],
+            correct: 1,
+            solution: "Turunan pertama terhadap x: 3x² + y². Turunan kedua terhadap x: turunan dari 3x² adalah 6x, dan y² dianggap konstanta sehingga turunannya 0. Jadi hasilnya 6x.",
+            steps: [
+                "Fungsi: f(x,y) = x³ + xy²",
+                "Turunan pertama terhadap x: 3x² + y²",
+                "Turunan kedua terhadap x: turunan 3x² adalah 6x, turunan y² adalah 0",
+                "Jadi, ∂²f/∂x² = 6x"
+            ]
+        },
+        {
+            question: "Jika f(x,y,z) = xy + yz + zx, berapakah ∂f/∂y pada titik (1,2,3)?",
+            options: ["1", "3", "4", "5"],
+            correct: 2,
+            solution: "Turunan parsial terhadap y: ∂/∂y (xy + yz + zx) = x + z + 0 = x + z. Pada titik (1,2,3), x=1 dan z=3, jadi hasilnya 1 + 3 = 4.",
+            steps: [
+                "Fungsi: f(x,y,z) = xy + yz + zx",
+                "Turunan parsial terhadap y: x + z",
+                "Substitusi titik (1,2,3): x=1, z=3",
+                "Hasil: 1 + 3 = 4"
+            ]
+        },
+        {
+            question: "Gradien dari fungsi f(x,y) = x² - y² pada titik (2,1) adalah...",
+            options: ["(4,-2)", "(4,2)", "(-4,2)", "(-4,-2)"],
+            correct: 0,
+            solution: "Gradien adalah vektor turunan parsial: (∂f/∂x, ∂f/∂y). Turunan parsial terhadap x adalah 2x, terhadap y adalah -2y. Pada titik (2,1), gradien = (4, -2).",
+            steps: [
+                "Fungsi: f(x,y) = x² - y²",
+                "Turunan parsial terhadap x: 2x",
+                "Turunan parsial terhadap y: -2y",
+                "Substitusi titik (2,1): (2*2, -2*1) = (4, -2)"
+            ]
+        }
+    ];
+    
+    let currentQuestionIndex = 0;
+    let userAnswers = [];
+    
+    function initQuiz() {
+        document.getElementById('total-questions').textContent = quizQuestions.length;
+        document.getElementById('total-questions-result').textContent = quizQuestions.length;
+        userAnswers = Array(quizQuestions.length).fill(null);
+        currentQuestionIndex = 0;
+        showQuestion(currentQuestionIndex);
+        updateQuizProgress();
+        
+        // Remove previous event listeners
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const restartBtn = document.getElementById('restart-quiz');
+        
+        prevBtn.replaceWith(prevBtn.cloneNode(true));
+        nextBtn.replaceWith(nextBtn.cloneNode(true));
+        restartBtn.replaceWith(restartBtn.cloneNode(true));
+        
+        // Add new event listeners
+        document.getElementById('prev-btn').addEventListener('click', prevQuestion);
+        document.getElementById('next-btn').addEventListener('click', nextQuestion);
+        document.getElementById('restart-quiz').addEventListener('click', restartQuiz);
+        
+        // Show quiz container, hide result
+        document.getElementById('quiz-container').classList.remove('hidden');
+        document.getElementById('quiz-result').classList.add('hidden');
+        document.getElementById('answer-keys').innerHTML = '';
+    }
+    
+    function showQuestion(index) {
+        const question = quizQuestions[index];
+        const quizContent = document.getElementById('quiz-content');
+        
+        let optionsHTML = '';
+        question.options.forEach((option, i) => {
+            const isSelected = userAnswers[index] === i;
+            optionsHTML += `
+                <div class="quiz-option ${isSelected ? 'selected' : ''} p-3 rounded-lg mb-2 cursor-pointer" data-index="${i}">
+                    <span class="inline-block w-6 h-6 rounded-full border border-gray-400 mr-2 text-center ${isSelected ? 'bg-white text-blue-500' : ''}">${String.fromCharCode(65 + i)}</span>
+                    ${option}
+                </div>
+            `;
+        });
+        
+        quizContent.innerHTML = `
+            <h3 class="text-xl font-semibold mb-4">Pertanyaan ${index + 1}</h3>
+            <p class="mb-4">${question.question}</p>
+            <div class="options-container">
+                ${optionsHTML}
+            </div>
+        `;
+        
+        // Add event listeners to options
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const optionIndex = parseInt(option.getAttribute('data-index'));
+                selectAnswer(optionIndex);
+            });
+        });
+        
+        // Update button states
+        document.getElementById('prev-btn').disabled = index === 0;
+        document.getElementById('next-btn').textContent = index === quizQuestions.length - 1 ? 'Selesai' : 'Selanjutnya';
+    }
+    
+    function selectAnswer(optionIndex) {
+        userAnswers[currentQuestionIndex] = optionIndex;
+        
+        // Update UI to show selected option
+        document.querySelectorAll('.quiz-option').forEach((option, i) => {
+            if (i === optionIndex) {
+                option.classList.add('selected');
+                option.querySelector('span').classList.add('bg-white', 'text-blue-500');
+            } else {
+                option.classList.remove('selected');
+                option.querySelector('span').classList.remove('bg-white', 'text-blue-500');
+            }
+        });
+    }
+    
+    function prevQuestion() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            showQuestion(currentQuestionIndex);
+            updateQuizProgress();
+        }
+    }
+    
+    function nextQuestion() {
+        if (currentQuestionIndex < quizQuestions.length - 1) {
+            currentQuestionIndex++;
+            showQuestion(currentQuestionIndex);
+            updateQuizProgress();
+        } else {
+            showQuizResult();
+        }
+    }
+    
+    function updateQuizProgress() {
+        document.getElementById('current-question').textContent = currentQuestionIndex + 1;
+        const progressPercentage = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
+        document.getElementById('quiz-progress-bar').style.width = `${progressPercentage}%`;
+    }
+    
+    function showQuizResult() {
+        document.getElementById('quiz-container').classList.add('hidden');
+        document.getElementById('quiz-result').classList.remove('hidden');
+        
+        const correctAnswers = userAnswers.filter((answer, index) => answer === quizQuestions[index].correct).length;
+        const scorePercentage = Math.round((correctAnswers / quizQuestions.length) * 100);
+        
+        document.getElementById('correct-answers').textContent = correctAnswers;
+        document.getElementById('score-display').textContent = `${scorePercentage}%`;
+        
+        // Show answer keys with correctness and steps
+        const answerKeysContainer = document.getElementById('answer-keys');
+        answerKeysContainer.innerHTML = '';
+        
+        quizQuestions.forEach((q, i) => {
+            const userAnswerIndex = userAnswers[i];
+            const isCorrect = userAnswerIndex === q.correct;
+            const userAnswerText = userAnswerIndex !== null ? q.options[userAnswerIndex] : 'Belum menjawab';
+            const correctAnswerText = q.options[q.correct];
+            
+            let answerHTML = `
+                <div class="answer-key mb-6 p-4 rounded-lg">
+                    <h4 class="text-lg font-semibold mb-1">Pertanyaan ${i + 1}:</h4>
+                    <p class="mb-2">${q.question}</p>
+                    <p><strong>Jawaban Kamu:</strong> <span class="${isCorrect ? 'correct' : 'incorrect'}">${userAnswerText}</span></p>
+                    <p><strong>Jawaban Benar:</strong> <span class="correct">${correctAnswerText}</span></p>
+                    <p class="mt-3 font-semibold">Langkah-langkah Penyelesaian:</p>
+                    <ol class="list-decimal pl-6 space-y-1 mt-1">
+            `;
+            q.steps.forEach(step => {
+                answerHTML += `<li>${step}</li>`;
+            });
+            answerHTML += `
+                    </ol>
+                    <p class="mt-3 ${isCorrect ? 'correct' : 'incorrect'} font-semibold">${isCorrect ? 'Jawaban benar!' : 'Jawaban salah.'}</p>
+                </div>
+            `;
+            answerKeysContainer.insertAdjacentHTML('beforeend', answerHTML);
+        });
+        
+        // Scroll to answer keys
+        answerKeysContainer.scrollIntoView({behavior: 'smooth'});
+    }
+    
+    function restartQuiz() {
+        initQuiz();
+    }
+    
+    // Calculator functionality
+    function initCalculator() {
+        document.getElementById('calculate-btn').addEventListener('click', calculateDerivatives);
+    }
+    
+    function calculateDerivatives() {
+        const functionInput = document.getElementById('function-input').value;
+        const xValue = parseFloat(document.getElementById('x-value').value);
+        const yValue = parseFloat(document.getElementById('y-value').value);
+        
+        if (!functionInput) {
+            alert('Silakan masukkan fungsi terlebih dahulu.');
+            return;
+        }
+        
+        try {
+            // Display function
+            document.getElementById('result-function').textContent = `f(x,y) = ${functionInput}`;
+            
+            // Calculate partial derivative with respect to x
+            const dxResult = `∂f/∂x = Turunan parsial terhadap x dari ${functionInput}`;
+            document.getElementById('result-dx').textContent = dxResult;
+            
+            // Calculate partial derivative with respect to y
+            const dyResult = `∂f/∂y = Turunan parsial terhadap y dari ${functionInput}`;
+            document.getElementById('result-dy').textContent = dyResult;
+            
+            // Display evaluation points
+            document.getElementById('eval-point-x').textContent = xValue;
+            document.getElementById('eval-point-y').textContent = yValue;
+            document.getElementById('eval-point-x2').textContent = xValue;
+            document.getElementById('eval-point-y2').textContent = yValue;
+            
+            // Display evaluated results (placeholder values for demonstration)
+            const dxValue = calculateSampleValue(functionInput, xValue, yValue, 'x');
+            const dyValue = calculateSampleValue(functionInput, xValue, yValue, 'y');
+            
+            document.getElementById('result-dx-value').textContent = dxValue;
+            document.getElementById('result-dy-value').textContent = dyValue;
+            
+            // Display gradient
+            document.getElementById('result-gradient').textContent = `∇f(${xValue}, ${yValue}) = (${dxValue}, ${dyValue})`;
+            
+            // Show result container
+            document.getElementById('result-container').classList.remove('hidden');
+            
+        } catch (error) {
+            alert('Terjadi kesalahan dalam perhitungan. Pastikan fungsi yang dimasukkan valid.');
+            console.error(error);
+        }
+    }
+    
+    // Simple function to generate sample values for demonstration
+    function calculateSampleValue(func, x, y, variable) {
+        // This is a simplified calculation for demonstration
+        // In a real implementation, we would use a proper symbolic math library
+        
+        // Simple cases for demonstration
+        if (func.includes('x^2') && func.includes('y^2')) {
+            if (variable === 'x') return 2 * x;
+            if (variable === 'y') return 2 * y;
+        }
+        
+        if (func.includes('x*y')) {
+            if (variable === 'x') return y;
+            if (variable === 'y') return x;
+        }
+        
+        // Default case
+        return variable === 'x' ? 2 * x + y : x + 2 * y;
+    }
+    
+    // Initialize MathJax to render LaTeX
+    window.onload = function() {
+        // Render all formulas
+        MathJax.typeset();
+    };
+  </script>
+ 
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+  const currentTheme = localStorage.getItem('theme');
+
+  if (currentTheme === 'light') {
+    document.body.classList.add('light-mode');
+  }
+
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    const newTheme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+    localStorage.setItem('theme', newTheme);
+  });
+</script>
+
+</body>
+</html>
